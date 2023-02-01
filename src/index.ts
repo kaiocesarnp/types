@@ -125,10 +125,118 @@ console.log(multiplyNumbers(someNumbers));
 
 
 //narrowing de checagem de tipos
+function doSomething(info: number | boolean){
+    if (typeof info === "number"){
+        console.log(`O número é ${info}`);
+        return;       
+    }
+    console.log("Não foi passado um número");
+}
 
+doSomething(5);
+doSomething(true);
 
+//generics
+function showArraysItems<T>(arr: T[]){
+    arr.forEach((item) => {
+        console.log(`ITEM: ${item}`);
+    });
+}
 
+const a1 = [1, 2, 3];
+const a2 = ["a", "b", "c"];
 
+showArraysItems(a1);
+showArraysItems(a2);
+
+//classes
+class User{
+    name
+    role
+    isApproved
+
+    constructor(name: string, role: string, isApproved: boolean){
+        this.name = name
+        this.role = role
+        this.isApproved = isApproved
+    }
+
+    showUserName(){
+        console.log(`O nome do usuário é ${this.name}`);
+    }
+
+    showUserRole(canShow: boolean): void{
+        if(canShow){
+            console.log(`O usuário é ${this.role}`);
+            return;
+        }
+        console.log("Informação Restrita");
+    }
+}
+
+const zeca = new User("Zeca", "Admin", true);
+console.log(zeca);
+zeca.showUserName();
+zeca.showUserRole(false);
+
+//interfaces em classes
+interface IVehicle{
+    brand: string,
+    showBrand(): void;
+}
+
+class Car implements IVehicle{
+    brand;
+    wheels;
+
+    constructor(brand: string, wheels: number){
+        this.brand = brand;
+        this.wheels = wheels;
+    }
+    
+    showBrand(): void {
+        console.log(`A marca do carro é: ${this.brand}`);
+    }
+}
+
+const fusca = new Car("VW", 4);
+fusca.showBrand();
+
+//herança
+class SuperCar extends Car{
+    engine;
+
+    constructor(brand: string, wheels: number, engine: number){
+        super(brand, wheels);
+        this.engine = engine;
+    }
+}
+
+const a4 = new SuperCar("Audi", 4, 2.0);
+console.log(a4);
+a4.showBrand();
+
+//decorators
+//constructor decorator
+function BaseParamters(){
+    return function <T extends {new (...args: any[]): {} }>(constructor: T){
+        return class extends constructor{
+            id = Math.random();
+            createdAt = new Date();
+        };
+    }
+}
+
+@BaseParamters()
+class Person{
+    name;
+    constructor(name: string){
+        this.name = name;
+    }
+}
+
+const sam = new Person("Sam");
+console.log(sam);
 
 
 
